@@ -75,7 +75,7 @@ public partial class MongoRepository
         var filterContentLog = Builders<ConversationContentLogDocument>.Filter.In(x => x.ConversationId, conversationIds);
         var filterStateLog = Builders<ConversationStateLogDocument>.Filter.In(x => x.ConversationId, conversationIds);
         var conbTabItems = Builders<CrontabItemDocument>.Filter.In(x => x.ConversationId, conversationIds);
-        var filterConvFile = Builders<ConversationFileDocument>.Filter.In(x => x.ConversationId, conversationIds);
+        //var filterConvFile = Builders<ConversationFileDocument>.Filter.In(x => x.ConversationId, conversationIds);
 
         var promptLogDeleted = await _dc.LlmCompletionLogs.DeleteManyAsync(filterPromptLog);
         var contentLogDeleted = await _dc.ContentLogs.DeleteManyAsync(filterContentLog);
@@ -83,12 +83,12 @@ public partial class MongoRepository
         var statesDeleted = await _dc.ConversationStates.DeleteManyAsync(filterSates);
         var dialogDeleted = await _dc.ConversationDialogs.DeleteManyAsync(filterDialog);
         var cronDeleted = await _dc.CrontabItems.DeleteManyAsync(conbTabItems);
-        var fileDeleted = await _dc.ConversationFiles.DeleteManyAsync(filterConvFile);
+        //var fileDeleted = await _dc.ConversationFiles.DeleteManyAsync(filterConvFile);
         var convDeleted = await _dc.Conversations.DeleteManyAsync(filterConv);
 
         return convDeleted.DeletedCount > 0 || dialogDeleted.DeletedCount > 0 || statesDeleted.DeletedCount > 0
             || promptLogDeleted.DeletedCount > 0 || contentLogDeleted.DeletedCount > 0
-            || stateLogDeleted.DeletedCount > 0 || fileDeleted.DeletedCount > 0
+            || stateLogDeleted.DeletedCount > 0
             || convDeleted.DeletedCount > 0;
     }
 
